@@ -45,10 +45,23 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter{
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 		.antMatchers(HttpMethod.GET, "/").permitAll()
+		
 		.antMatchers(HttpMethod.GET, "/esportes").permitAll()
+		.antMatchers(HttpMethod.GET, "/esportes/*").permitAll()
+		
+		.antMatchers(HttpMethod.GET, "/ligas").permitAll()
+		.antMatchers(HttpMethod.GET, "/ligas/*").permitAll()
+		
+		.antMatchers(HttpMethod.GET, "/equipes").permitAll()		
+		.antMatchers(HttpMethod.GET, "/equipes/*").permitAll()
+		
+		.antMatchers(HttpMethod.GET, "/atletas").permitAll()		
+		.antMatchers(HttpMethod.GET, "/atletas/*").permitAll()
+		
 		.antMatchers(HttpMethod.POST, "/auth").permitAll()
 		.antMatchers(HttpMethod.POST, "/auth/create").permitAll()
 		.antMatchers(HttpMethod.GET, "/auth/confirm").permitAll()
+		
 		.anyRequest().authenticated()
 		.and().csrf().disable()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)

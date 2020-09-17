@@ -1,5 +1,9 @@
 package br.com.russo.wiksport.controller.dto;
 
+import org.springframework.data.domain.Page;
+
+import br.com.russo.wiksport.model.Equipes;
+
 public class EquipesHomeDto {
 
 	private Long id;
@@ -10,6 +14,12 @@ public class EquipesHomeDto {
 		this.id = id;
 		this.nome = nome;
 		this.icon = icon;
+	}
+	
+	public EquipesHomeDto(Equipes equipe) {
+		this.id = equipe.getId();
+		this.nome = equipe.getNome();
+		this.icon = equipe.getIcon();
 	}
 
 	public Long getId() {
@@ -22,6 +32,10 @@ public class EquipesHomeDto {
 
 	public String getIcon() {
 		return icon;
+	}
+
+	public static Page<EquipesHomeDto> converter(Page<Equipes> equipes) {
+		return equipes.map(EquipesHomeDto::new);
 	}
 
 }

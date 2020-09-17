@@ -1,24 +1,14 @@
-package br.com.russo.wiksport.model;
+package br.com.russo.wiksport.controller.dto;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
+import br.com.russo.wiksport.model.Atletas;
 
-@Entity
-public class Atletas {
+public class AtletaDto {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nome;
 	private LocalDateTime nascimento = LocalDateTime.now();
@@ -26,16 +16,21 @@ public class Atletas {
 	private String titulos;
 	private Long partidas;
 	private String icon = "";
-	@Column(columnDefinition = "boolean default true")
-	private Boolean ativo;
-	private LocalDateTime criado = LocalDateTime.now();
-	private LocalDateTime editado = LocalDateTime.now();
-	@ManyToMany(fetch = FetchType.EAGER)
-	@JoinTable(name = "equipes_atletas", joinColumns = {
-			@JoinColumn(name = "atletas_id", referencedColumnName = "id", nullable = false, updatable = true) },
-				inverseJoinColumns = {
-						@JoinColumn(name = "equipes_id", referencedColumnName = "id", nullable = false, updatable = true) })
-	private List<Equipes> equipes = new ArrayList<>();
+	private LocalDateTime criado;
+	private List<EquipesHomeDto> equipes;
+
+	public AtletaDto(Atletas atleta) {
+		this.id = atleta.getId();
+		this.nome = atleta.getNome();
+		this.nascimento = atleta.getNascimento();
+		this.falescimento = atleta.getFalescimento();
+		this.titulos = atleta.getTitulos();
+		this.partidas = atleta.getPartidas();
+		this.icon = atleta.getIcon();
+		this.criado = atleta.getCriado();
+		this.equipes = new ArrayList<>();
+		this.equipes.addAll(atleta.getEquipes().stream().map(EquipesHomeDto::new).collect(Collectors.toList()));
+	}
 
 	public Long getId() {
 		return id;
@@ -93,14 +88,6 @@ public class Atletas {
 		this.icon = icon;
 	}
 
-	public Boolean getAtivo() {
-		return ativo;
-	}
-
-	public void setAtivo(Boolean ativo) {
-		this.ativo = ativo;
-	}
-
 	public LocalDateTime getCriado() {
 		return criado;
 	}
@@ -109,19 +96,11 @@ public class Atletas {
 		this.criado = criado;
 	}
 
-	public LocalDateTime getEditado() {
-		return editado;
-	}
-
-	public void setEditado(LocalDateTime editado) {
-		this.editado = editado;
-	}
-
-	public List<Equipes> getEquipes() {
+	public List<EquipesHomeDto> getEquipes() {
 		return equipes;
 	}
 
-	public void setEquipes(List<Equipes> equipes) {
+	public void setEquipes(List<EquipesHomeDto> equipes) {
 		this.equipes = equipes;
 	}
 

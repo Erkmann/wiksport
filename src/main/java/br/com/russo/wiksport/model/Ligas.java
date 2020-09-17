@@ -10,6 +10,8 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
@@ -32,6 +34,13 @@ public class Ligas {
 	@ManyToOne
 	private Esportes esporte;
 	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "ligas_equipes",
+    joinColumns = {
+            @JoinColumn(name = "ligas_id", referencedColumnName = "id",
+                    nullable = false, updatable = true)},
+    inverseJoinColumns = {
+            @JoinColumn(name = "equipes_id", referencedColumnName = "id",
+                    nullable = false, updatable = true)})
 	private List<Equipes> equipes = new ArrayList<>();
 
 	public Long getId() {

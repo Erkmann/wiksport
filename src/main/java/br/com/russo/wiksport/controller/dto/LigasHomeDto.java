@@ -1,15 +1,26 @@
 package br.com.russo.wiksport.controller.dto;
 
+import org.springframework.data.domain.Page;
+
+import br.com.russo.wiksport.model.Ligas;
+
 public class LigasHomeDto {
-	
+
 	private Long id;
 	private String nome;
 	private String icon;
-	
+
 	public LigasHomeDto(Long id, String nome, String icon) {
+		super();
 		this.id = id;
 		this.nome = nome;
 		this.icon = icon;
+	}
+
+	public LigasHomeDto(Ligas liga) {
+		this.id = liga.getId();
+		this.nome = liga.getNome();
+		this.icon = liga.getIcon();
 	}
 
 	public Long getId() {
@@ -22,6 +33,10 @@ public class LigasHomeDto {
 
 	public String getIcon() {
 		return icon;
-	}	
+	}
+
+	public static Page<LigasHomeDto> converter(Page<Ligas> ligas) {
+		return ligas.map(LigasHomeDto::new);
+	}
 
 }
