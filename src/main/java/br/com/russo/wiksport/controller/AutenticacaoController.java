@@ -72,7 +72,7 @@ public class AutenticacaoController {
 	@Transactional
 	public ResponseEntity<UsuarioCreateDto> criar(@RequestBody @Valid CreateForm form, UriComponentsBuilder uriBuilder,
 			HttpServletRequest request) {
-		Usuario usuario = form.converter();
+		Usuario usuario = form.converter(usuarioRepository);
 		Optional<Usuario> jaCadastrado = usuarioRepository.findByEmail(usuario.getEmail());
 		if (jaCadastrado.isPresent()) {
 			return ResponseEntity.badRequest().body(new UsuarioCreateDto(jaCadastrado.get()));
@@ -96,10 +96,8 @@ public class AutenticacaoController {
 			Usuario usuario = usuarioRepository.getOne(optional.get().getId());
 			usuario.setVerificado(true);
 			usuario.setEditado(LocalDateTime.now());
-			URI url = new URI(origin);
-			HttpHeaders httpHeaders = new HttpHeaders();
-		    httpHeaders.setLocation(url);
-		    return new ResponseEntity<>(httpHeaders, HttpStatus.SEE_OTHER);
+			usuarioRepository.save(usuario);
+			return ResponseEntity.status(HttpStatus.MOVED_PERMANENTLY).header(HttpHeaders.LOCATION, origin).build();
 		}
 
 		return ResponseEntity.badRequest().build();
