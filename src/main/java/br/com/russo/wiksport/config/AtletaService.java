@@ -9,7 +9,7 @@ import br.com.russo.wiksport.model.Atletas;
 import br.com.russo.wiksport.repository.AtletasRepository;
 
 @Service
-public class atletaService {
+public class AtletaService {
 
 	@Autowired
 	AtletasRepository atletaRepository;

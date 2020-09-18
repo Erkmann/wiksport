@@ -9,13 +9,14 @@ public class EquipesHomeDto {
 	private Long id;
 	private String nome;
 	private String icon;
+	private Boolean curtido = false;
 
 	public EquipesHomeDto(Long id, String nome, String icon) {
 		this.id = id;
 		this.nome = nome;
 		this.icon = icon;
 	}
-	
+
 	public EquipesHomeDto(Equipes equipe) {
 		this.id = equipe.getId();
 		this.nome = equipe.getNome();
@@ -32,6 +33,14 @@ public class EquipesHomeDto {
 
 	public String getIcon() {
 		return icon;
+	}
+
+	public boolean isCurtido() {
+		return curtido;
+	}
+
+	public void setCurtido(Boolean curtido) {
+		this.curtido = curtido;
 	}
 
 	public static Page<EquipesHomeDto> converter(Page<Equipes> equipes) {

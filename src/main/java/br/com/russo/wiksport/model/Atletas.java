@@ -30,12 +30,15 @@ public class Atletas {
 	private Boolean ativo;
 	private LocalDateTime criado = LocalDateTime.now();
 	private LocalDateTime editado = LocalDateTime.now();
-	@ManyToMany(fetch = FetchType.EAGER)
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "equipes_atletas", joinColumns = {
 			@JoinColumn(name = "atletas_id", referencedColumnName = "id", nullable = false, updatable = true) },
 				inverseJoinColumns = {
 						@JoinColumn(name = "equipes_id", referencedColumnName = "id", nullable = false, updatable = true) })
 	private List<Equipes> equipes = new ArrayList<>();
+	@ManyToMany(fetch = FetchType.LAZY)
+	private List<Curtida> curtidas;
+	
 
 	public Long getId() {
 		return id;
@@ -123,6 +126,14 @@ public class Atletas {
 
 	public void setEquipes(List<Equipes> equipes) {
 		this.equipes = equipes;
+	}
+
+	public List<Curtida> getCurtidas() {
+		return curtidas;
+	}
+
+	public void setCurtidas(List<Curtida> curtidas) {
+		this.curtidas = curtidas;
 	}
 
 }

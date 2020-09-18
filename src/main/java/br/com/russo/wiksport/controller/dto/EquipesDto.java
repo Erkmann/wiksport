@@ -19,6 +19,7 @@ public class EquipesDto {
 	private LocalDateTime criado = LocalDateTime.now();
 	private List<LigasHomeDto> ligas;
 	private List<AtletaHomeDto> atletas;
+	private Boolean curtido = false;
 
 	public EquipesDto(Equipes equipe) {
 		this.id = equipe.getId();
@@ -113,6 +114,14 @@ public class EquipesDto {
 
 	public void setAtletas(List<AtletaHomeDto> atletas) {
 		this.atletas = atletas;
+	}
+
+	public boolean isCurtido() {
+		return curtido;
+	}
+
+	public void setCurtido(Boolean curtido) {
+		this.curtido = curtido;
 	}
 
 }

@@ -32,18 +32,18 @@ public class Equipes {
 	private LocalDateTime editado = LocalDateTime.now();
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "ligas_equipes", joinColumns = {
-			@JoinColumn(name = "equipes_id", referencedColumnName = "id", nullable = false, updatable = true) },
-				inverseJoinColumns = {
-						@JoinColumn(name = "ligas_id", referencedColumnName = "id", nullable = false, updatable = true) })
+			@JoinColumn(name = "equipes_id", referencedColumnName = "id", nullable = false, updatable = true) }, inverseJoinColumns = {
+					@JoinColumn(name = "ligas_id", referencedColumnName = "id", nullable = false, updatable = true) })
 	private List<Ligas> ligas = new ArrayList<>();
-	
+
 	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "equipes_atletas", joinColumns = {
-			@JoinColumn(name = "equipes_id", referencedColumnName = "id", nullable = false, updatable = true) },
-				inverseJoinColumns = {
-						@JoinColumn(name = "atletas_id", referencedColumnName = "id", nullable = false, updatable = true) })
+			@JoinColumn(name = "equipes_id", referencedColumnName = "id", nullable = false, updatable = true) }, inverseJoinColumns = {
+					@JoinColumn(name = "atletas_id", referencedColumnName = "id", nullable = false, updatable = true) })
 	private List<Atletas> atletas = new ArrayList<>();
-	
+	@ManyToMany(fetch = FetchType.LAZY)
+	private List<Curtida> curtidas;
+
 	public Long getId() {
 		return id;
 	}
@@ -138,6 +138,14 @@ public class Equipes {
 
 	public void setAtletas(List<Atletas> atletas) {
 		this.atletas = atletas;
+	}
+
+	public List<Curtida> getCurtidas() {
+		return curtidas;
+	}
+
+	public void setCurtidas(List<Curtida> curtidas) {
+		this.curtidas = curtidas;
 	}
 
 }

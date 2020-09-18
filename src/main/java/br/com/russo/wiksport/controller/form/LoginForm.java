@@ -1,10 +1,20 @@
 package br.com.russo.wiksport.controller.form;
 
+import javax.validation.constraints.NotEmpty;
+
+import org.hibernate.validator.constraints.Length;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
-public class LoginForm {
+import com.sun.istack.NotNull;
 
+public class LoginForm {
+	@NotNull
+	@NotEmpty
+	@Length(min = 5)
 	private String email;
+	@NotNull
+	@NotEmpty
+	@Length(min = 8)
 	private String senha;
 
 	public String getEmail() {
