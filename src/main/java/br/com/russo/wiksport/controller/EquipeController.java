@@ -32,26 +32,22 @@ import br.com.russo.wiksport.model.Equipes;
 import br.com.russo.wiksport.model.Usuario;
 import br.com.russo.wiksport.repository.CurtidaRepository;
 import br.com.russo.wiksport.repository.EquipesRepository;
-import br.com.russo.wiksport.repository.UsuarioRepository;
 
 @RestController
 @RequestMapping("/equipes")
 public class EquipeController {
 
 	@Autowired
-	EquipesRepository equipesRepository;
+	private EquipesRepository equipesRepository;
 
 	@Autowired
-	UsuarioRepository usuarioRepository;
+	private CurtidaRepository curtidaRepository;
 
 	@Autowired
-	CurtidaRepository curtidaRepository;
+	private EquipeService equipeService;
 
 	@Autowired
-	EquipeService equipeService;
-
-	@Autowired
-	UserService userService;
+	private UserService userService;
 
 	@GetMapping
 	public Page<EquipesHomeDto> listar(@RequestParam(required = false) String name,

@@ -9,6 +9,7 @@ public class LigasHomeDto {
 	private Long id;
 	private String nome;
 	private String icon;
+	private Boolean curtido = false;
 
 	public LigasHomeDto(Long id, String nome, String icon) {
 		super();
@@ -33,6 +34,14 @@ public class LigasHomeDto {
 
 	public String getIcon() {
 		return icon;
+	}
+
+	public Boolean getCurtido() {
+		return curtido;
+	}
+
+	public void setCurtido(Boolean curtido) {
+		this.curtido = curtido;
 	}
 
 	public static Page<LigasHomeDto> converter(Page<Ligas> ligas) {

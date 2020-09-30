@@ -17,6 +17,7 @@ public class EsporteDto {
 	private String icon = "";
 	private LocalDateTime criado = LocalDateTime.now();
 	private List<LigasHomeDto> ligas;
+	private Boolean curtido = false;
 
 	public EsporteDto(Esportes esporte) {
 		this.id = esporte.getId();
@@ -26,8 +27,8 @@ public class EsporteDto {
 		this.regras = esporte.getRegras();
 		this.icon = esporte.getIcon();
 		this.criado = esporte.getCriado();
-		this.setLigas(new ArrayList<>());
-		this.getLigas().addAll(esporte.getLigas().stream().map(LigasHomeDto::new).collect(Collectors.toList()));
+		this.ligas = new ArrayList<>();
+		this.ligas.addAll(esporte.getLigas().stream().map(LigasHomeDto::new).collect(Collectors.toList()));
 	}
 
 	public Long getId() {
@@ -92,6 +93,14 @@ public class EsporteDto {
 
 	public void setLigas(List<LigasHomeDto> ligas) {
 		this.ligas = ligas;
+	}
+
+	public Boolean getCurtido() {
+		return curtido;
+	}
+
+	public void setCurtido(Boolean curtido) {
+		this.curtido = curtido;
 	}
 
 }

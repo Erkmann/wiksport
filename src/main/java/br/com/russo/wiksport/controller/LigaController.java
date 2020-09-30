@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.russo.wiksport.config.LigaService;
+import br.com.russo.wiksport.config.UserService;
 import br.com.russo.wiksport.controller.dto.CurtidaLigaDto;
 import br.com.russo.wiksport.controller.dto.LigaDto;
 import br.com.russo.wiksport.controller.dto.LigasHomeDto;
@@ -40,27 +41,53 @@ import br.com.russo.wiksport.repository.UsuarioRepository;
 public class LigaController {
 
 	@Autowired
-	LigasRepository ligaRepository;
+	private LigasRepository ligaRepository;
 	
 	@Autowired
-	UsuarioRepository usuarioRepository;
+	private UsuarioRepository usuarioRepository;
 	
 	@Autowired
-	CurtidaRepository curtidaRepository;
+	private CurtidaRepository curtidaRepository;
 
 	@Autowired
-	LigaService ligaService;
+	private LigaService ligaService;
+	
+	@Autowired
+	private UserService userService;
 
 	@GetMapping
 	public Page<LigasHomeDto> listar(@RequestParam(required = false) String name,
 			@PageableDefault(sort = "id", direction = Direction.DESC, page = 0, size = 15) Pageable paginacao) {
+		
+		Page<LigasHomeDto> converter = null;
+		
 		if (name == null) {
 			Page<Ligas> ligas = ligaRepository.findAll(paginacao);
-			return LigasHomeDto.converter(ligas);
+			converter = LigasHomeDto.converter(ligas);
 		} else {
 			Page<Ligas> ligas = ligaRepository.findByNome(name, paginacao);
-			return LigasHomeDto.converter(ligas);
+			converter = LigasHomeDto.converter(ligas);
 		}
+		
+		if (userService.isLogged()) {
+			for (LigasHomeDto l : converter) {
+				Usuario usuario = userService.getLoggedUser();
+				Optional<Ligas> lig = ligaRepository.findById(l.getId());
+				Ligas liga = lig.get();
+				Optional<List<Curtida>> curtidasUsuario = curtidaRepository.findByUsuario(usuario);
+
+				if (curtidasUsuario.isPresent()) {
+					for (Curtida c : curtidasUsuario.get()) {
+						if (liga.getCurtidas().contains(c)) {
+							l.setCurtido(true);
+						}
+					}
+				}
+			}
+		}
+		
+		return converter;
+		
 	}
 
 	@GetMapping("/{name}-{id}")
